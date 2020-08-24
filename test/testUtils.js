@@ -10,7 +10,17 @@ export const findByTestAttr = (wrapper, val) => {
   return wrapper.find(`[data-test="${val}"]`)
 }
 
+/**
+ * Asserts that the given props conforms to the propTypes of the component.
+ * @param {Component} component - A react component
+ * @param {object} conformingProps - An object of props
+ */
 export const checkProps = (component, conformingProps) => {
-  const propError = checkPropTypes(component.propTypes, conformingProps, 'prop', component.name)
+  const propError = checkPropTypes(
+    component.propTypes,
+    conformingProps,
+    'prop',
+    component.name
+  )
   expect(propError).toBeUndefined()
 }
