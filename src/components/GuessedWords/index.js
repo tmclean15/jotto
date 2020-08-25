@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { GuessedWordsWrapper } from './style'
+
 const GuessedWords = (props) => {
   let contents
 
@@ -31,7 +33,11 @@ const GuessedWords = (props) => {
       </div>
     )
   }
-  return <div data-test="component-guessed-words">{contents}</div>
+  return (
+    <GuessedWordsWrapper data-test="component-guessed-words">
+      {contents}
+    </GuessedWordsWrapper>
+  )
 }
 
 GuessedWords.propTypes = {
