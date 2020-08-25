@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { GuessedWords, Congrats } from './components'
+import { GuessedWords, Congrats, Input } from './components'
 
 const AppWrapper = styled.div`
   height: 100%;
@@ -16,7 +16,8 @@ function App(props) {
   return (
     <AppWrapper className="App">
       <h1>Jotto</h1>
-      <Congrats success={true} />
+      <Congrats />
+      <Input />
       <GuessedWords
         guessedWords={[
           { guessedWord: 'train', letterMatchCount: 3 },
