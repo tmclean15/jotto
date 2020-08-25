@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { GuessedWords, Congrats, Input } from './components'
+import { useSelector } from 'react-redux'
 
 const AppWrapper = styled.div`
   height: 100%;
@@ -13,10 +14,12 @@ const AppWrapper = styled.div`
 `
 
 function App(props) {
+  const success = useSelector((state) => state.success)
+
   return (
     <AppWrapper className="App">
       <h1>Jotto</h1>
-      <Congrats />
+      <Congrats success={success} />
       <Input />
       <GuessedWords
         guessedWords={[
