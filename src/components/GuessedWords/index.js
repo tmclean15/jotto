@@ -1,17 +1,19 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { useSelector } from 'react-redux'
 
 import { GuessedWordsWrapper } from './style'
 
 const GuessedWords = (props) => {
+  const guessedWords = useSelector((state) => state.guessedWords)
+
   let contents
 
-  if (props.guessedWords.length === 0) {
+  if (guessedWords.length === 0) {
     contents = (
       <span data-test="guess-instructions">Try to guess the secret word!</span>
     )
   } else {
-    const guessedWordsRows = props.guessedWords.map((word, index) => (
+    const guessedWordsRows = guessedWords.map((word, index) => (
       <tr data-test="guessed-word" key={index}>
         <td>{word.guessedWord}</td>
         <td>{word.letterMatchCount}</td>
@@ -38,15 +40,6 @@ const GuessedWords = (props) => {
       {contents}
     </GuessedWordsWrapper>
   )
-}
-
-GuessedWords.propTypes = {
-  guessedWords: PropTypes.arrayOf(
-    PropTypes.shape({
-      guessedWord: PropTypes.string.isRequired,
-      letterMatchCount: PropTypes.number.isRequired,
-    })
-  ).isRequired,
 }
 
 export default GuessedWords
