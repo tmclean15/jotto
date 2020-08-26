@@ -5,8 +5,7 @@ import { Provider } from 'react-redux'
 import { findByTestAttr, storeFactory } from '../../../test/testUtils'
 import Input from '../Input'
 
-const setup = (initialState = {}) => {
-  const store = storeFactory(initialState)
+const setup = (store) => {
   const wrapper = mount(
     <Provider store={store}>
       <Input />
@@ -19,9 +18,11 @@ const setup = (initialState = {}) => {
 describe('Input component render', () => {
   describe('word has not been guessed', () => {
     let wrapper
+    let store
     beforeEach(() => {
       const initialState = { success: false }
-      wrapper = setup(initialState)
+      store = storeFactory(initialState)
+      wrapper = setup(store)
     })
 
     test('renders component without error', () => {
@@ -41,9 +42,11 @@ describe('Input component render', () => {
   })
   describe('word has been guessed', () => {
     let wrapper
+    let store
     beforeEach(() => {
       const initialState = { success: true }
-      wrapper = setup(initialState)
+      store = storeFactory(initialState)
+      wrapper = setup(store)
     })
 
     test('renders component without error', () => {
@@ -63,4 +66,61 @@ describe('Input component render', () => {
   })
 })
 
-describe('Input component update state', () => {})
+describe('Input component update state', () => {
+  const secretWord = 'party'
+  const incorrectGuess = 'train'
+
+  let wrapper
+  let store
+  beforeEach(() => {
+    const initialState = { success: false, secretWord, guessedWords: [] }
+    store = storeFactory(initialState)
+    wrapper = setup(store)
+  })
+
+  test('adds the guessed word to guessedWords state in redux store on input submit', () => {
+    const inputBox = findByTestAttr(wrapper, 'input-box')
+    inputBox.simulate('change', { target: { value: incorrectGuess } })
+
+    const submitButton = findByTestAttr(wrapper, 'submit-button')
+    submitButton.simulate('click')
+
+    const newState = store.getState()
+
+    const expectedState = {
+      success: false,
+      secretWord,
+      guessedWords: [
+        {
+          guessedWord: incorrectGuess,
+          letterMatchCount: 3,
+        },
+      ],
+    }
+
+    expect(newState).toEqual(expectedState)
+  })
+
+  test('updates success state in redux store if input submitted is correct', () => {
+    const inputBox = findByTestAttr(wrapper, 'input-box')
+    inputBox.simulate('change', { target: { value: secretWord } })
+
+    const submitButton = findByTestAttr(wrapper, 'submit-button')
+    submitButton.simulate('click')
+
+    const newState = store.getState()
+
+    const expectedState = {
+      success: true,
+      secretWord,
+      guessedWords: [
+        {
+          guessedWord: secretWord,
+          letterMatchCount: 5,
+        },
+      ],
+    }
+
+    expect(newState).toEqual(expectedState)
+  })
+})

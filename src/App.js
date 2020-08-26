@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components'
 
 import { GuessedWords, Congrats, Input } from './components'
-import { useSelector } from 'react-redux'
+import { getSecretWord } from './actions'
 
 const AppWrapper = styled.div`
   height: 100%;
@@ -14,6 +15,12 @@ const AppWrapper = styled.div`
 `
 
 function App(props) {
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(getSecretWord())
+  }, [dispatch])
+
   return (
     <AppWrapper className="App">
       <h1>Jotto</h1>
