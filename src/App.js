@@ -14,12 +14,10 @@ const AppWrapper = styled.div`
 `
 
 function App(props) {
-  const success = useSelector((state) => state.success)
-
   return (
     <AppWrapper className="App">
       <h1>Jotto</h1>
-      <Congrats success={success} />
+      <Congrats />
       <Input />
       <GuessedWords
         guessedWords={[

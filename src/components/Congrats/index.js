@@ -1,5 +1,5 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { useSelector } from 'react-redux'
 
 import { CongratsWrapper } from './style'
 
@@ -9,7 +9,9 @@ import { CongratsWrapper } from './style'
  * @returns {JSX.element} - Rendered component (or null if `success` prop is true)
  */
 const Congrats = (props) => {
-  if (props.success) {
+  const success = useSelector((state) => state.success)
+
+  if (success) {
     return (
       <CongratsWrapper data-test="component-congrats">
         <span data-test="congrats-message">
@@ -20,10 +22,6 @@ const Congrats = (props) => {
   } else {
     return <div data-test="component-congrats" />
   }
-}
-
-Congrats.propTypes = {
-  success: PropTypes.bool.isRequired,
 }
 
 export default Congrats
